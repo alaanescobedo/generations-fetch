@@ -7,30 +7,17 @@
   <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
   <title>API Fetch</title>
 </head>
-<body class="bg-dark">
+<body class="bg-dark text-white">
 
   <div class="container w-75">
     <div class="text-center my-3">
       <button id="btn-read-users" class="btn btn-success">Leer usuarios</button>
     </div>
-    <div id="info">
-
-    </div>
-    <table class="table table-responsive text-white">
-      <thead>
-        <tr class="text-center">
-          <th scope="col">id</th>
-          <th scope="col">First Name</th>
-          <th scope="col">Last Name</th>
-          <th scope="col">e-mail</th>
-          <th scope="col">Image</th>
-        </tr>
-      </thead>
-      <tbody class="text-center" id="table-body"></tbody>
+    <div id="users-info"></div>
   </div>
   
 
   <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" ></script>
-  <script src="./index.js"></script>
+  <script type="module" src="./index.js"></script>
 </body>
 </html>

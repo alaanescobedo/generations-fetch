@@ -1,35 +1,35 @@
+import { tableView } from './views.js'
+
+const URL = "https://reqres.in/api/users?delay=3"
+
+// Utils
 const getHTMLElement = (selector) => document.querySelector(selector);
+const useLocalStorage = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+const readLocalStorage = (key) => JSON.parse(localStorage.getItem(key));
 
-const tableBodyElement = getHTMLElement("#table-body");
-const btnReadUsersElement = getHTMLElement("#btn-read-users");
-
-const printUsers = (data) => {
-  data.forEach((user) => {
-    const trElement = document.createElement("tr");
-    trElement.innerHTML = `
-      <td>${user.id}</td>
-      <td>${user.email}</td>
-      <td>${user.first_name}</td>
-      <td>${user.last_name}</td>
-      <td><img src="${user.avatar}" alt="avatar" class="rounded-circle w-50" /></td>
-    `;
-    tableBodyElement.appendChild(trElement);
-  });
+// Services
+const getDataFromApi = (url) => {
+  return fetch(url)
+    .then((response) => response.json())
+    .then((data) => data.data)
+    .catch((error) => console.log(error));
 };
 
+// Main
 const readUsers = async () => {
-  let usersData = JSON.parse(localStorage.getItem("users"));
-  if (usersData && usersData.time > Date.now()) return printUsers(usersData.data);
+  tableView.renderSpinner();
 
-  const response = await fetch("https://reqres.in/api/users?delay=3");
-  const { data } = await response.json();
+  let { time = 0, data = [] } = readLocalStorage("users") || {};
+  if (time > Date.now()) return tableView.render(data);
 
-  printUsers(data);
-  usersData = {
-    data: data,
+  const users = await getDataFromApi(URL);
+  useLocalStorage("users", {
+    data: users,
     time: Date.now() + 60000,
-  };
-  localStorage.setItem("users", JSON.stringify(usersData));
+  });
+  tableView.render(users);
 };
 
+// DOM
+const btnReadUsersElement = getHTMLElement("#btn-read-users");
 btnReadUsersElement.addEventListener("click", readUsers);
