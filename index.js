@@ -17,11 +17,10 @@ const getDataFromApi = (url) => {
 
 // Main
 const readUsers = async () => {
-  tableView.renderSpinner();
-
   let { time = 0, data = [] } = readLocalStorage("users") || {};
   if (time > Date.now()) return tableView.render(data);
 
+  tableView.renderSpinner();
   const users = await getDataFromApi(URL);
   useLocalStorage("users", {
     data: users,
