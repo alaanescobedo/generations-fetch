@@ -1,6 +1,6 @@
 class View { 
   render(data){
-    const markup = this.#generateMarkup(data);
+    const markup = this._generateMarkup(data);
     this._clear();
     this._parentElement.appendChild(markup)
   }
