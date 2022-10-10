@@ -49,7 +49,7 @@ class TableUsers extends View {
         <td>${user.email}</td>
         <td>${user.first_name}</td>
         <td>${user.last_name}</td>
-        <td><img src="${user.avatar}" alt="avatar" class="rounded-circle w-50"  /></td>
+        <td><img src="${user.avatar}" alt="avatar" class="rounded-circle w-25"  /></td>
       </tr>
     `);
   
