@@ -1,10 +1,11 @@
 class View { 
   render(data){
-    const markup = this._generateMarkup(data);
+    const markup = this.generateMarkup(data);
     this._clear();
     this._parentElement.appendChild(markup)
   }
   renderSpinner(){
+    this._clear();
     const spinner = document.createElement("div");
     spinner.innerHTML = `
       <div class="text-center">
@@ -25,7 +26,7 @@ class TableUsers extends View {
     super();
     this._parentElement = document.querySelector(selector);
   }
-  _generateMarkup(data){
+  generateMarkup(data){
     const table = document.createElement("table");
     const tableHead = document.createElement("thead");
     const tableBody = document.createElement("tbody");
