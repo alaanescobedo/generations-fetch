@@ -1,11 +1,11 @@
 class View { 
   render(data){
+    this.#clear();
     const markup = this.generateMarkup(data);
-    this._clear();
-    this._parentElement.appendChild(markup)
+    this.parentElement.appendChild(markup)
   }
   renderSpinner(){
-    this._clear();
+    this.#clear();
     const spinner = document.createElement("div");
     spinner.innerHTML = `
       <div class="text-center">
@@ -14,24 +14,34 @@ class View {
         </div>
       </div>
     `;
-    this._parentElement.appendChild(spinner);
+    this.parentElement.appendChild(spinner);
   }
-  _clear(){
-    this._parentElement.innerHTML = "";
+  renderError(message){
+    this.#clear();
+    const error = document.createElement("div");
+    error.innerHTML = `
+      <div class="text-center">
+        <p class="text-danger fw-bold">${message}</p>
+      </div>
+    `;
+    this.parentElement.appendChild(error);
+  }
+  #clear(){
+    this.parentElement.innerHTML = "";
   }
 }
 
 class TableUsers extends View {
   constructor(selector){
     super();
-    this._parentElement = document.querySelector(selector);
+    this.parentElement = document.querySelector(selector);  
   }
   generateMarkup(data){
     const table = document.createElement("table");
     const tableHead = document.createElement("thead");
     const tableBody = document.createElement("tbody");
     
-    table.classList.add("table", "table-bordered","text-white","text-center","table-dark","table-responsive");	
+    table.classList.add("table", "table-bordered","text-white","text-center","table-dark");	
     tableBody.classList.add("align-middle");
   
     tableHead.innerHTML = `

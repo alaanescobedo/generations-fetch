@@ -12,21 +12,29 @@ const getDataFromApi = (url) => {
   return fetch(url)
     .then((response) => response.json())
     .then((data) => data.data)
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      throw new Error(error)
+    });
 };
 
 // Main
 const readUsers = async () => {
-  let { time = 0, data = [] } = readLocalStorage("users") || {};
-  if (time > Date.now()) return tableView.render(data);
+  try {
+    let { time = 0, data = [] } = readLocalStorage("users") || {};
+    if (time > Date.now()) return tableView.render(data);
 
-  tableView.renderSpinner();
-  const users = await getDataFromApi(URL);
-  useLocalStorage("users", {
-    data: users,
-    time: Date.now() + 60000,
-  });
-  tableView.render(users);
+    tableView.renderSpinner();
+    const users = await getDataFromApi(URL);
+    useLocalStorage("users", {
+      data: users,
+      time: Date.now() + 60000,
+    });
+    tableView.render(users);
+  } catch (error) {
+    if(error instanceof Error) {
+      tableView.renderError(error.message);
+    }
+  }
 };
 
 // DOM
