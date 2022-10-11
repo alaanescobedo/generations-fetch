@@ -1,10 +1,16 @@
-class View { 
-  render(data){
+/**
+ * Este archivo lo use para practicar OOP en javascript.
+  Entiendo que hay ciertas cosas que no son del todo correctas y que JS tal vez no sea el mejor lenguaje para practicar
+  dado la ausencia de methodos protegidos, y la posibilidad de acceder a los metodos del hijo desde el padre.
+  Pero al final me parecio interesante el ejercicio y lo deje asi.
+ */
+class View {
+  render(data) {
     this.#clear();
     const markup = this.generateMarkup(data);
     this.parentElement.appendChild(markup)
   }
-  renderSpinner(){
+  renderSpinner() {
     this.#clear();
     const spinner = document.createElement("div");
     spinner.innerHTML = `
@@ -16,7 +22,7 @@ class View {
     `;
     this.parentElement.appendChild(spinner);
   }
-  renderError(message){
+  renderError(message) {
     this.#clear();
     const error = document.createElement("div");
     error.innerHTML = `
@@ -26,24 +32,24 @@ class View {
     `;
     this.parentElement.appendChild(error);
   }
-  #clear(){
+  #clear() {
     this.parentElement.innerHTML = "";
   }
 }
 
 class TableUsers extends View {
-  constructor(selector){
+  constructor(selector) {
     super();
-    this.parentElement = document.querySelector(selector);  
+    this.parentElement = document.querySelector(selector);
   }
-  generateMarkup(data){
+  generateMarkup(data) {
     const table = document.createElement("table");
     const tableHead = document.createElement("thead");
     const tableBody = document.createElement("tbody");
-    
-    table.classList.add("table", "table-bordered","text-white","text-center","table-dark");	
+
+    table.classList.add("table", "table-bordered", "text-white", "text-center", "table-dark");
     tableBody.classList.add("align-middle");
-  
+
     tableHead.innerHTML = `
       <tr class="text-center">
         <th scope="col">id</th>
@@ -62,7 +68,7 @@ class TableUsers extends View {
         <td><img src="${user.avatar}" alt="avatar" class="rounded-circle w-25"  /></td>
       </tr>
     `);
-  
+
     table.appendChild(tableHead);
     table.appendChild(tableBody);
     return table
